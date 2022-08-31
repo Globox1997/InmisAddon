@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.inmisaddon.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "plugin": "net.inmisaddon.mixin.InmisAddonMixinPlugin",
+  "mixins": [],
+  "client": [
+    "BackpackFeatureMixin",
+    "TrinketBackpackRendererMixin",
+    "InmisKeybindsAccessor",
+    "BackpackHandledScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

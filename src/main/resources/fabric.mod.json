@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "inmisaddon",
+  "version": "${version}",
+  "name": "InmisAddon",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Globox_Z",
+    "Pois1x"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/inmisaddon/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.inmisaddon.InmisAddon"
+    ]
+  },
+  "mixins": [
+    "inmisaddon.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric-api": "*",
+    "minecraft": "1.19.x",
+    "java": ">=17",
+    "inmis": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
