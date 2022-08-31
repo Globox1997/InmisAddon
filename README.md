@@ -1,9 +1,8 @@
-# Fabric Example Mod
+# InmisAddon
+InmisAddon is an addon for the [Inmis](https://github.com/Draylar/inmis) mod.
 
-## Setup
+### Installation
+InmisAddon is a mod built for the [Fabric Loader](https://fabricmc.net/). It requires [Inmis](https://www.curseforge.com/minecraft/mc-mods/inmis) to be installed; all other dependencies are installed with the mod.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+### License
+InmisAddon is licensed under MIT.
