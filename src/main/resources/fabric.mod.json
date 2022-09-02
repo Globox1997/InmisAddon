@@ -16,11 +16,7 @@
   "license": "MIT",
   "icon": "assets/inmisaddon/icon.png",
   "environment": "*",
-  "entrypoints": {
-    "client": [
-      "net.inmisaddon.InmisAddon"
-    ]
-  },
+  "entrypoints": {},
   "mixins": [
     "inmisaddon.mixins.json"
   ],

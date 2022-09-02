@@ -7,7 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import net.inmisaddon.InmisAddon;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class InmisAddonMixinPlugin implements IMixinConfigPlugin {
 
@@ -22,7 +22,7 @@ public class InmisAddonMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (!InmisAddon.isTrinketsLoaded && mixinClassName.contains("TrinketBackpackRendererMixin"))
+        if (!FabricLoader.getInstance().isModLoaded("trinkets") && mixinClassName.contains("TrinketBackpackRendererMixin"))
             return false;
 
         return true;
