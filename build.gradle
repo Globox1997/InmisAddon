@@ -15,6 +15,7 @@ repositories {
 	maven { url "https://jitpack.io" }
 	maven { url "https://ladysnake.jfrog.io/artifactory/mods" }
 	maven { url "https://maven.terraformersmc.com/" }
+	maven { url "https://server.bbkr.space/artifactory/libs-release" }
 }
 
 dependencies {
@@ -37,6 +38,19 @@ dependencies {
 	// Trinkets
 	modCompileOnly ("dev.emi:trinkets:${project.trinkets_version}"),{
         exclude(group: "net.fabricmc.fabric-api")
+    }
+	// LevelZ
+	modCompileOnly ('curse.maven:levelz-517130:3973731') {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modCompileOnly ("io.github.cottonmc:LibGui:6.0.1+1.19")
+	// modCompileOnly ('curse.maven:jobsaddon-682362:4010802') {
+	// 	exclude(group: "net.fabricmc.fabric-api")
+	// }
+	modCompileOnly ('com.github.Globox1997:JobsAddon:1.19-SNAPSHOT') {
+        exclude(group: "net.fabricmc.fabric-api")
+		exclude(module:"LevelZ")
+		exclude(group: "me.shedaniel.cloth")
     }
 }
 

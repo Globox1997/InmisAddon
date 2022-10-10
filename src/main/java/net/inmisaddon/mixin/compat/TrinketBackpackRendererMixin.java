@@ -1,4 +1,4 @@
-package net.inmisaddon.mixin;
+package net.inmisaddon.mixin.compat;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

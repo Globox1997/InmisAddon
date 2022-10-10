@@ -7,9 +7,12 @@
   "mixins": [],
   "client": [
     "BackpackFeatureMixin",
-    "TrinketBackpackRendererMixin",
     "InmisKeybindsAccessor",
-    "BackpackHandledScreenMixin"
+    "BackpackHandledScreenMixin",
+    "compat.TrinketBackpackRendererMixin",
+    "compat.InventoryScreenMixin",
+    "compat.LevelzScreenMixin",
+    "compat.JobsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

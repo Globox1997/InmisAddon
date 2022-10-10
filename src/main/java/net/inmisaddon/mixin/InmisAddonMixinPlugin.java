@@ -24,6 +24,10 @@ public class InmisAddonMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (!FabricLoader.getInstance().isModLoaded("trinkets") && mixinClassName.contains("TrinketBackpackRendererMixin"))
             return false;
+        if (!FabricLoader.getInstance().isModLoaded("levelz") && (mixinClassName.contains("InventoryScreenMixin") || mixinClassName.contains("LevelzScreenMixin")))
+            return false;
+        if (!FabricLoader.getInstance().isModLoaded("jobsaddon") && mixinClassName.contains("JobsScreenMixin"))
+            return false;
 
         return true;
     }
