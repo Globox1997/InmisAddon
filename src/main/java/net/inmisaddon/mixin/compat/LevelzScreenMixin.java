@@ -21,7 +21,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.inmisaddon.util.BackpackUtil;
 import net.levelz.gui.LevelzScreen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 
@@ -33,9 +32,9 @@ public abstract class LevelzScreenMixin extends CottonClientScreen {
         super(description);
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 1, shift = Shift.BEFORE))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 0, shift = Shift.BEFORE))
     private void renderMixin(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, CallbackInfo info) {
-        if (this.client != null && this.client.player != null && BackpackUtil.isBackPackEquipped(this.client.player)) {
+        if (this.client != null && this.client.player != null && BackpackUtil.isBackpackEquipped(this.client.player)) {
             RenderSystem.setShaderTexture(0, BackpackUtil.GUI_TAB_ICONS);
             int xPos = 50;
             if (BackpackUtil.isJobsAddonLoaded)
@@ -45,7 +44,7 @@ public abstract class LevelzScreenMixin extends CottonClientScreen {
             else
                 this.drawTexture(matrices, this.left + xPos, this.top - 21, 0, 0, 24, 21);
 
-            this.client.getItemRenderer().renderInGui(this.client.player.getEquippedStack(EquipmentSlot.CHEST), this.left + xPos + 4, this.top - 17);
+            this.client.getItemRenderer().renderInGui(BackpackUtil.getEquippedBackpack(this.client.player), this.left + xPos + 4, this.top - 17);
 
             if (this.isPointWithinIconBounds(xPos, 23, (double) mouseX, (double) mouseY))
                 this.renderTooltip(matrices, Text.translatable("screen.inmisaddon.backpack_screen"), mouseX, mouseY);
@@ -55,7 +54,7 @@ public abstract class LevelzScreenMixin extends CottonClientScreen {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void mouseClickedMixin(double mouseX, double mouseY, int mouseButton, CallbackInfoReturnable<Boolean> info) {
         if (this.client != null && this.isPointWithinIconBounds(BackpackUtil.isJobsAddonLoaded ? 75 : 50, 23, (double) mouseX, (double) mouseY) && this.client.player != null
-                && BackpackUtil.isBackPackEquipped(this.client.player))
+                && BackpackUtil.isBackpackEquipped(this.client.player))
             ClientPlayNetworking.send(ServerNetworking.OPEN_BACKPACK, new PacketByteBuf(Unpooled.buffer()));
     }
 

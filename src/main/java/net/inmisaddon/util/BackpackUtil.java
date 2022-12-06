@@ -1,5 +1,7 @@
 package net.inmisaddon.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import dev.emi.trinkets.api.TrinketsApi;
 import draylar.inmis.Inmis;
 import draylar.inmis.item.BackpackItem;
@@ -69,13 +71,22 @@ public class BackpackUtil {
         return false;
     }
 
-    public static boolean isBackPackEquipped(PlayerEntity playerEntity) {
+    public static boolean isBackpackEquipped(PlayerEntity playerEntity) {
         if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem)
             return true;
         else if (isTrinketsLoaded)
             return TrinketsApi.getTrinketComponent(playerEntity).get().isEquipped(stack -> stack.getItem() instanceof BackpackItem);
         else
             return false;
+    }
+
+    @Nullable
+    public static ItemStack getEquippedBackpack(PlayerEntity playerEntity) {
+        if (isTrinketsLoaded && TrinketsApi.getTrinketComponent(playerEntity).get().isEquipped(stack -> stack.getItem() instanceof BackpackItem))
+            return TrinketsApi.getTrinketComponent(playerEntity).get().getEquipped(stack -> stack.getItem() instanceof BackpackItem).get(0).getRight();
+        else if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem)
+            return playerEntity.getEquippedStack(EquipmentSlot.CHEST);
+        return null;
     }
 
 }

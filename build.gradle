@@ -40,7 +40,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 	// LevelZ
-	modCompileOnly ('curse.maven:levelz-517130:3973731') {
+	modCompileOnly ('curse.maven:levelz-517130:4137159') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	modCompileOnly ("io.github.cottonmc:LibGui:6.0.1+1.19")
