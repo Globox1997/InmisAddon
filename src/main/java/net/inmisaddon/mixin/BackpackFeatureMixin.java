@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import draylar.inmis.client.BackpackFeature;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.inmisaddon.util.BackpackRenderUtil;
+import net.inmisaddon.util.BackpackUtil;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -29,7 +29,7 @@ public abstract class BackpackFeatureMixin extends FeatureRenderer<AbstractClien
     private void renderMixin(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta,
             float animationProgress, float headYaw, float headPitch, CallbackInfo info) {
 
-        if (BackpackRenderUtil.renderBackpack(this.getContextModel(), matrices, vertexConsumers, light, player.getEquippedStack(EquipmentSlot.CHEST)))
+        if (BackpackUtil.renderBackpack(this.getContextModel(), matrices, vertexConsumers, light, player.getEquippedStack(EquipmentSlot.CHEST)))
             info.cancel();
     }
 }

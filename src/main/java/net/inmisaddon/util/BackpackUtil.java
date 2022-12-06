@@ -1,5 +1,6 @@
 package net.inmisaddon.util;
 
+import dev.emi.trinkets.api.TrinketsApi;
 import draylar.inmis.Inmis;
 import draylar.inmis.item.BackpackItem;
 import draylar.inmis.item.DyeableBackpackItem;
@@ -17,13 +18,15 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 @SuppressWarnings("rawtypes")
 @Environment(EnvType.CLIENT)
-public class BackpackRenderUtil {
+public class BackpackUtil {
 
     public static final Identifier GUI_TAB_ICONS = new Identifier("inmisaddon", "textures/gui/icons.png");
     public static boolean isJobsAddonLoaded = FabricLoader.getInstance().isModLoaded("jobsaddon");
@@ -40,7 +43,7 @@ public class BackpackRenderUtil {
 
             matrices.translate(0D, -0.9D, 0.2D);
 
-            Model backpackModel = itemStack.isOf(Inmis.BACKPACKS.get(0)) ? BackpackRenderUtil.babyBackpackModel : BackpackRenderUtil.backpackModel;
+            Model backpackModel = itemStack.isOf(Inmis.BACKPACKS.get(0)) ? BackpackUtil.babyBackpackModel : BackpackUtil.backpackModel;
 
             VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
                     backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registry.ITEM.getId(itemStack.getItem()).getPath() + ".png")), false, itemStack.hasGlint());
@@ -64,6 +67,15 @@ public class BackpackRenderUtil {
             return true;
         }
         return false;
+    }
+
+    public static boolean isBackPackEquipped(PlayerEntity playerEntity) {
+        if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem)
+            return true;
+        else if (isTrinketsLoaded)
+            return TrinketsApi.getTrinketComponent(playerEntity).get().isEquipped(stack -> stack.getItem() instanceof BackpackItem);
+        else
+            return false;
     }
 
 }

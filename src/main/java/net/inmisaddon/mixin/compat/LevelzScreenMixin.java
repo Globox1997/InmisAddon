@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import draylar.inmis.item.BackpackItem;
 import draylar.inmis.network.ServerNetworking;
 import io.github.cottonmc.cotton.gui.GuiDescription;
 import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
@@ -19,7 +18,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.inmisaddon.util.BackpackRenderUtil;
+import net.inmisaddon.util.BackpackUtil;
 import net.levelz.gui.LevelzScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
@@ -36,10 +35,10 @@ public abstract class LevelzScreenMixin extends CottonClientScreen {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 1, shift = Shift.BEFORE))
     private void renderMixin(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, CallbackInfo info) {
-        if (this.client != null && this.client.player != null && this.client.player.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem) {
-            RenderSystem.setShaderTexture(0, BackpackRenderUtil.GUI_TAB_ICONS);
+        if (this.client != null && this.client.player != null && BackpackUtil.isBackPackEquipped(this.client.player)) {
+            RenderSystem.setShaderTexture(0, BackpackUtil.GUI_TAB_ICONS);
             int xPos = 50;
-            if (BackpackRenderUtil.isJobsAddonLoaded)
+            if (BackpackUtil.isJobsAddonLoaded)
                 xPos = 75;
             if (LibGui.isDarkMode())
                 this.drawTexture(matrices, this.left + xPos, this.top - 21, 48, 0, 24, 21);
@@ -55,8 +54,8 @@ public abstract class LevelzScreenMixin extends CottonClientScreen {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void mouseClickedMixin(double mouseX, double mouseY, int mouseButton, CallbackInfoReturnable<Boolean> info) {
-        if (this.client != null && this.isPointWithinIconBounds(BackpackRenderUtil.isJobsAddonLoaded ? 75 : 50, 23, (double) mouseX, (double) mouseY) && this.client.player != null
-                && this.client.player.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem)
+        if (this.client != null && this.isPointWithinIconBounds(BackpackUtil.isJobsAddonLoaded ? 75 : 50, 23, (double) mouseX, (double) mouseY) && this.client.player != null
+                && BackpackUtil.isBackPackEquipped(this.client.player))
             ClientPlayNetworking.send(ServerNetworking.OPEN_BACKPACK, new PacketByteBuf(Unpooled.buffer()));
     }
 
