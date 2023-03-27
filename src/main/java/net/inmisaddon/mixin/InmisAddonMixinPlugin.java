@@ -22,13 +22,15 @@ public class InmisAddonMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (!FabricLoader.getInstance().isModLoaded("trinkets") && mixinClassName.contains("TrinketBackpackRendererMixin"))
+        if (mixinClassName.contains("TrinketBackpackRendererMixin") && !FabricLoader.getInstance().isModLoaded("trinkets"))
             return false;
-        if (!FabricLoader.getInstance().isModLoaded("levelz") && (mixinClassName.contains("InventoryScreenMixin") || mixinClassName.contains("LevelzScreenMixin")))
+        if (!FabricLoader.getInstance().isModLoaded("libz")) {
+            if (mixinClassName.contains("BackpackHandledScreenCompatMixin")) {
+                return false;
+            }
+        } else if (mixinClassName.contains("BackpackHandledScreenMixin")) {
             return false;
-        if (!FabricLoader.getInstance().isModLoaded("jobsaddon") && mixinClassName.contains("JobsScreenMixin"))
-            return false;
-
+        }
         return true;
     }
 

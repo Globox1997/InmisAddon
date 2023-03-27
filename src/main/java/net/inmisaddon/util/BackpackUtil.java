@@ -30,8 +30,6 @@ import net.minecraft.util.registry.Registry;
 @Environment(EnvType.CLIENT)
 public class BackpackUtil {
 
-    public static final Identifier GUI_TAB_ICONS = new Identifier("inmisaddon", "textures/gui/icons.png");
-    public static boolean isJobsAddonLoaded = FabricLoader.getInstance().isModLoaded("jobsaddon");
     public static boolean isTrinketsLoaded = FabricLoader.getInstance().isModLoaded("trinkets");
 
     private static final BackpackModel backpackModel = new BackpackModel(BackpackModel.getTexturedModelData().createModel());

@@ -18,9 +18,6 @@ public abstract class BackpackHandledScreenMixin extends HandledScreen<BackpackS
         super(handler, inventory, title);
     }
 
-
-    
-
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (InmisKeybindsAccessor.getOpenBackpackKeyBinding().matchesKey(keyCode, scanCode)) {

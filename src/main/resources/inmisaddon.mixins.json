@@ -10,9 +10,7 @@
     "InmisKeybindsAccessor",
     "BackpackHandledScreenMixin",
     "compat.TrinketBackpackRendererMixin",
-    "compat.InventoryScreenMixin",
-    "compat.LevelzScreenMixin",
-    "compat.JobsScreenMixin"
+    "compat.BackpackHandledScreenCompatMixin"
   ],
   "injectors": {
     "defaultRequire": 1
