@@ -27,8 +27,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 @SuppressWarnings("rawtypes")
 @Environment(EnvType.CLIENT)
@@ -61,7 +61,7 @@ public abstract class TrinketBackpackRendererMixin {
         Model backpackModel = stack.isOf(Inmis.BACKPACKS.get(0)) ? this.babyBackpackModel : this.backpackModel;
 
         VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registry.ITEM.getId(stack.getItem()).getPath() + ".png")), false, stack.hasGlint());
+                backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registries.ITEM.getId(stack.getItem()).getPath() + ".png")), false, stack.hasGlint());
 
         float f = 1.0F;
         float g = 1.0F;

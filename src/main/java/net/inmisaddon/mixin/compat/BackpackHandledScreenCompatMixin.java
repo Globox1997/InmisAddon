@@ -10,8 +10,8 @@ import draylar.inmis.ui.BackpackScreenHandler;
 import net.inmisaddon.mixin.InmisKeybindsAccessor;
 import net.libz.api.Tab;
 import net.libz.util.DrawTabHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
@@ -23,8 +23,8 @@ public abstract class BackpackHandledScreenCompatMixin extends HandledScreen<Bac
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void renderMixin(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
-        DrawTabHelper.drawTab(client, matrices, this, x, y, mouseX, mouseY);
+    private void renderMixin(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo info) {
+        DrawTabHelper.drawTab(client, context, this, x, y, mouseX, mouseY);
     }
 
     @Override
@@ -38,8 +38,9 @@ public abstract class BackpackHandledScreenCompatMixin extends HandledScreen<Bac
         if (InmisKeybindsAccessor.getOpenBackpackKeyBinding().matchesKey(keyCode, scanCode)) {
             this.close();
             return true;
-        } else
+        } else {
             return super.keyPressed(keyCode, scanCode, modifiers);
+        }
     }
 
 }

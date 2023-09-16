@@ -23,7 +23,8 @@ public abstract class BackpackHandledScreenMixin extends HandledScreen<BackpackS
         if (InmisKeybindsAccessor.getOpenBackpackKeyBinding().matchesKey(keyCode, scanCode)) {
             this.close();
             return true;
-        } else
+        } else {
             return super.keyPressed(keyCode, scanCode, modifiers);
+        }
     }
 }

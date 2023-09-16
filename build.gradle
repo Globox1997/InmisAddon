@@ -1,10 +1,7 @@
 plugins {
-	id 'fabric-loom' version '1.0-SNAPSHOT'
+	id 'fabric-loom' version '1.3-SNAPSHOT'
 	id 'maven-publish'
 }
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -13,10 +10,11 @@ group = project.maven_group
 repositories {
 	maven { url "https://www.cursemaven.com" }
 	maven { url "https://jitpack.io" }
-	maven { url "https://ladysnake.jfrog.io/artifactory/mods" }
+	maven { url "https://maven.ladysnake.org/releases" }
 	maven { url "https://maven.terraformersmc.com/" }
 	maven { url "https://server.bbkr.space/artifactory/libs-release" }
 	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -29,7 +27,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
 	// Inmis
-	modImplementation ("curse.maven:inmis-369254:3853651"),{
+	modImplementation ("curse.maven:inmis-369254:4754360"),{
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	// config
@@ -37,21 +35,20 @@ dependencies {
         exclude group: "net.fabricmc.fabric-api"
     }
 	// LibZ
-    modCompileOnly modRuntimeOnly ('com.github.Globox1997:LibZ:a007413402'),{
+	modCompileOnly ('maven.modrinth:libz:1.0.2+1.20.1') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	// Trinkets
 	modCompileOnly ("dev.emi:trinkets:${project.trinkets_version}"),{
         exclude(group: "net.fabricmc.fabric-api")
     }
-	modCompileOnly ("io.github.cottonmc:LibGui:6.0.1+1.19")
 }
 
 processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": project.version, "fabric_version": project.fabric_version, "loader_version": project.loader_version, "minecraft_version": project.minecraft_version
 	}
 }
 
@@ -65,6 +62,9 @@ java {
 	// if it is present.
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {

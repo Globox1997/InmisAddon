@@ -23,8 +23,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 @SuppressWarnings("rawtypes")
 @Environment(EnvType.CLIENT)
@@ -46,7 +46,7 @@ public class BackpackUtil {
             Model backpackModel = itemStack.isOf(Inmis.BACKPACKS.get(0)) ? BackpackUtil.babyBackpackModel : BackpackUtil.backpackModel;
 
             VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                    backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registry.ITEM.getId(itemStack.getItem()).getPath() + ".png")), false, itemStack.hasGlint());
+                    backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registries.ITEM.getId(itemStack.getItem()).getPath() + ".png")), false, itemStack.hasGlint());
 
             float f = 1.0F;
             float g = 1.0F;

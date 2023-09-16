@@ -29,7 +29,8 @@ public abstract class BackpackFeatureMixin extends FeatureRenderer<AbstractClien
     private void renderMixin(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta,
             float animationProgress, float headYaw, float headPitch, CallbackInfo info) {
 
-        if (BackpackUtil.renderBackpack(this.getContextModel(), matrices, vertexConsumers, light, player.getEquippedStack(EquipmentSlot.CHEST)))
+        if (BackpackUtil.renderBackpack(this.getContextModel(), matrices, vertexConsumers, light, player.getEquippedStack(EquipmentSlot.CHEST))) {
             info.cancel();
+        }
     }
 }
