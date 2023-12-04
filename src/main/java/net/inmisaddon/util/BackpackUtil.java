@@ -10,8 +10,10 @@ import draylar.inmis.item.DyeableTrinketBackpackItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
+import net.inmisaddon.InmisAddonClient;
 import net.inmisaddon.model.BabyBackpackModel;
 import net.inmisaddon.model.BackpackModel;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
@@ -34,9 +36,13 @@ public class BackpackUtil {
 
     private static final BackpackModel backpackModel = new BackpackModel(BackpackModel.getTexturedModelData().createModel());
     private static final BabyBackpackModel babyBackpackModel = new BabyBackpackModel(BabyBackpackModel.getTexturedModelData().createModel());
+    private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static boolean renderBackpack(PlayerEntityModel playerEntityModel, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ItemStack itemStack) {
         if (itemStack.getItem() instanceof BackpackItem) {
+            if (InmisAddonClient.isFirstPersonLoaded && client.player != null && client.player.isMainPlayer() && client.options.getPerspective().isFirstPerson() && client.player.isSwimming()) {
+                return true;
+            }
             matrices.push();
             ModelPart modelPart = playerEntityModel.body;
             modelPart.rotate(matrices);
@@ -70,20 +76,22 @@ public class BackpackUtil {
     }
 
     public static boolean isBackpackEquipped(PlayerEntity playerEntity) {
-        if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem)
+        if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem) {
             return true;
-        else if (isTrinketsLoaded)
+        } else if (isTrinketsLoaded) {
             return TrinketsApi.getTrinketComponent(playerEntity).get().isEquipped(stack -> stack.getItem() instanceof BackpackItem);
-        else
+        } else {
             return false;
+        }
     }
 
     @Nullable
     public static ItemStack getEquippedBackpack(PlayerEntity playerEntity) {
-        if (isTrinketsLoaded && TrinketsApi.getTrinketComponent(playerEntity).get().isEquipped(stack -> stack.getItem() instanceof BackpackItem))
+        if (isTrinketsLoaded && TrinketsApi.getTrinketComponent(playerEntity).get().isEquipped(stack -> stack.getItem() instanceof BackpackItem)) {
             return TrinketsApi.getTrinketComponent(playerEntity).get().getEquipped(stack -> stack.getItem() instanceof BackpackItem).get(0).getRight();
-        else if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem)
+        } else if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BackpackItem) {
             return playerEntity.getEquippedStack(EquipmentSlot.CHEST);
+        }
         return null;
     }
 

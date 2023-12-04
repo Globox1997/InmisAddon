@@ -42,6 +42,10 @@ dependencies {
 	modCompileOnly ("dev.emi:trinkets:${project.trinkets_version}"),{
         exclude(group: "net.fabricmc.fabric-api")
     }
+	// FirstPerson
+	modCompileOnly ('maven.modrinth:first-person-model:gah8AMuD') {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
 
 processResources {
