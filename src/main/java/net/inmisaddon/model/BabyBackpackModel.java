@@ -20,7 +20,7 @@ public class BabyBackpackModel extends Model {
     private final ModelPart base;
 
     public BabyBackpackModel(ModelPart base) {
-        super(RenderLayer::getEntityCutoutNoCull);
+        super(RenderLayer::getEntityTranslucent);
         this.base = base.getChild("base");
     }
 
