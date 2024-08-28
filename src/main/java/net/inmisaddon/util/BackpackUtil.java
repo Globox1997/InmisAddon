@@ -1,12 +1,16 @@
 package net.inmisaddon.util;
 
+import java.util.Iterator;
+
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
 
+import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
 import draylar.inmis.Inmis;
 import draylar.inmis.item.BackpackItem;
-import draylar.inmis.item.DyeableBackpackItem;
-import draylar.inmis.item.DyeableTrinketBackpackItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -27,6 +31,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 
 @SuppressWarnings("rawtypes")
 @Environment(EnvType.CLIENT)
@@ -52,23 +57,13 @@ public class BackpackUtil {
             Model backpackModel = itemStack.isOf(Inmis.BACKPACKS.get(0)) ? BackpackUtil.babyBackpackModel : BackpackUtil.backpackModel;
 
             VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                    backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registries.ITEM.getId(itemStack.getItem()).getPath() + ".png")), false, itemStack.hasGlint());
+                    backpackModel.getLayer(Identifier.of("inmisaddon", "textures/entity/" + Registries.ITEM.getId(itemStack.getItem()).getPath() + ".png")), false, itemStack.hasGlint());
 
-            float f = 1.0F;
-            float g = 1.0F;
-            float h = 1.0F;
-            if (itemStack.getItem() instanceof DyeableBackpackItem) {
-                int i = ((DyeableBackpackItem) itemStack.getItem()).getColor(itemStack);
-                f = (float) (i >> 16 & 0xFF) / 255.0f;
-                g = (float) (i >> 8 & 0xFF) / 255.0f;
-                h = (float) (i & 0xFF) / 255.0f;
-            } else if (isTrinketsLoaded && itemStack.getItem() instanceof DyeableTrinketBackpackItem) {
-                int i = ((DyeableTrinketBackpackItem) itemStack.getItem()).getColor(itemStack);
-                f = (float) (i >> 16 & 0xFF) / 255.0f;
-                g = (float) (i >> 8 & 0xFF) / 255.0f;
-                h = (float) (i & 0xFF) / 255.0f;
+            int color = -1;
+            if (itemStack.isIn(ItemTags.DYEABLE) && itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
+                color = itemStack.get(DataComponentTypes.DYED_COLOR).rgb();
             }
-            backpackModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, f, g, h, 1.0F);
+            backpackModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color);
             matrices.pop();
             return true;
         }

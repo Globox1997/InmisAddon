@@ -1,5 +1,6 @@
 package net.inmisaddon.util;
 
+import draylar.inmis.network.packet.BackpackPacket;
 import org.jetbrains.annotations.Nullable;
 
 import draylar.inmis.network.ServerNetworking;
@@ -36,7 +37,7 @@ public class BackpackTab extends InventoryTab {
 
     @Override
     public void onClick(MinecraftClient client) {
-        ClientPlayNetworking.send(ServerNetworking.OPEN_BACKPACK, new PacketByteBuf(Unpooled.buffer()));
+        ClientPlayNetworking.send(new BackpackPacket());
     }
 
     // Had to outsource registry here

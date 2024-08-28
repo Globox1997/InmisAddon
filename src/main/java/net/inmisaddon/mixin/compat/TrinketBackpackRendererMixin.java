@@ -1,5 +1,7 @@
 package net.inmisaddon.mixin.compat;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.registry.tag.ItemTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -8,8 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.emi.trinkets.api.SlotReference;
 import draylar.inmis.Inmis;
 import draylar.inmis.client.TrinketBackpackRenderer;
-import draylar.inmis.item.DyeableBackpackItem;
-import draylar.inmis.item.DyeableTrinketBackpackItem;
 import draylar.inmis.item.TrinketBackpackItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -61,23 +61,13 @@ public abstract class TrinketBackpackRendererMixin {
         Model backpackModel = stack.isOf(Inmis.BACKPACKS.get(0)) ? this.babyBackpackModel : this.backpackModel;
 
         VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                backpackModel.getLayer(new Identifier("inmisaddon", "textures/entity/" + Registries.ITEM.getId(stack.getItem()).getPath() + ".png")), false, stack.hasGlint());
+                backpackModel.getLayer( Identifier.of("inmisaddon", "textures/entity/" + Registries.ITEM.getId(stack.getItem()).getPath() + ".png")), false, stack.hasGlint());
 
-        float f = 1.0F;
-        float g = 1.0F;
-        float h = 1.0F;
-        if (stack.getItem() instanceof DyeableTrinketBackpackItem) {
-            int i = ((DyeableTrinketBackpackItem) stack.getItem()).getColor(stack);
-            f = (float) (i >> 16 & 0xFF) / 255.0f;
-            g = (float) (i >> 8 & 0xFF) / 255.0f;
-            h = (float) (i & 0xFF) / 255.0f;
-        } else if (stack.getItem() instanceof DyeableBackpackItem) {
-            int i = ((DyeableBackpackItem) stack.getItem()).getColor(stack);
-            f = (float) (i >> 16 & 0xFF) / 255.0f;
-            g = (float) (i >> 8 & 0xFF) / 255.0f;
-            h = (float) (i & 0xFF) / 255.0f;
+        int color = -1;
+        if (stack.isIn(ItemTags.DYEABLE) && stack.get(DataComponentTypes.DYED_COLOR) != null) {
+            color = stack.get(DataComponentTypes.DYED_COLOR).rgb();
         }
-        backpackModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, f, g, h, 1.0F);
+        backpackModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color);
         matrices.pop();
 
         info.cancel();

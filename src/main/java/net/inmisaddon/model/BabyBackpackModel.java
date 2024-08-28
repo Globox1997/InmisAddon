@@ -40,8 +40,9 @@ public class BabyBackpackModel extends Model {
         return TexturedModelData.of(modelData, 64, 64);
     }
 
+
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
-        this.base.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+        this.base.render(matrices, vertices, light, overlay, color);
     }
 }

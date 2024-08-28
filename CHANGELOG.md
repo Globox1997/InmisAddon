@@ -1,6 +1,6 @@
 ### Added:
 - 
 ### Fixed:
-- Fixed first person mod compat
-### Changed:
 - 
+### Changed:
+- Updated to mc 1.21
