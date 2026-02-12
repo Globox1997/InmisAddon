@@ -1,6 +1,6 @@
 ### Added:
 - 
 ### Fixed:
-- 
+- Fixed frayed default color
 ### Changed:
-- Updated to mc 1.21
+- 

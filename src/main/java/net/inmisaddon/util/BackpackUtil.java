@@ -44,7 +44,7 @@ public class BackpackUtil {
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static boolean renderBackpack(PlayerEntityModel playerEntityModel, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ItemStack itemStack) {
-        if (itemStack.getItem() instanceof BackpackItem) {
+        if (itemStack.getItem() instanceof BackpackItem backpackItem) {
             if (InmisAddonClient.isFirstPersonLoaded && client.player != null && client.player.isMainPlayer() && client.options.getPerspective().isFirstPerson() && client.player.isSwimming()) {
                 return true;
             }
@@ -57,11 +57,15 @@ public class BackpackUtil {
             Model backpackModel = itemStack.isOf(Inmis.BACKPACKS.get(0)) ? BackpackUtil.babyBackpackModel : BackpackUtil.backpackModel;
 
             VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                    backpackModel.getLayer(Identifier.of("inmisaddon", "textures/entity/" + Registries.ITEM.getId(itemStack.getItem()).getPath() + ".png")), false, itemStack.hasGlint());
+                    backpackModel.getLayer(Identifier.of("inmisaddon", "textures/entity/" + Registries.ITEM.getId(backpackItem).getPath() + ".png")), false, itemStack.hasGlint());
 
             int color = -1;
-            if (itemStack.isIn(ItemTags.DYEABLE) && itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
-                color = itemStack.get(DataComponentTypes.DYED_COLOR).rgb();
+            if (itemStack.isIn(ItemTags.DYEABLE)) {
+                if (itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
+                    color = itemStack.get(DataComponentTypes.DYED_COLOR).rgb();
+                } else {
+                    color = 9723195;
+                }
             }
             backpackModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color);
             matrices.pop();
