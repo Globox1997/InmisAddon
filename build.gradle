@@ -1,11 +1,14 @@
 plugins {
-	id 'fabric-loom' version '1.7-SNAPSHOT'
+	id 'fabric-loom' version '1.15-SNAPSHOT'
 	id 'maven-publish'
 }
 
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
 
 repositories {
 	maven { url "https://www.cursemaven.com" }
@@ -27,11 +30,11 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
 	// Inmis
-	modCompileOnly modRuntimeOnly('maven.modrinth:inmis:2.8.0-1.21.1') {
+	modCompileOnly modRuntimeOnly('maven.modrinth:inmis:2.8.2-1.21.1') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	// LibZ
-	modCompileOnly ('maven.modrinth:libz:1.0.3+1.21') {
+	modCompileOnly ('maven.modrinth:libz:1.0.3+1.21.1') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	// Trinkets
@@ -39,7 +42,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 	// FirstPerson
-	modCompileOnly ('maven.modrinth:first-person-model:PxI34t92') {
+	modCompileOnly ('maven.modrinth:first-person-model:1lNcm3MK') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 }
@@ -67,8 +70,10 @@ java {
 }
 
 jar {
+	inputs.property "archivesName", project.base.archivesName
+
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }
 
