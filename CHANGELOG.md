@@ -1,6 +1,6 @@
 ### Added:
 - 
 ### Fixed:
-- Fixed frayed default color
+- Fixed shader compatibility
 ### Changed:
 - 

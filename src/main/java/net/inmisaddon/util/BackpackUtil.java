@@ -61,10 +61,15 @@ public class BackpackUtil {
 
             int color = -1;
             if (itemStack.isIn(ItemTags.DYEABLE)) {
+                Integer dyedColor = null;
                 if (itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
-                    color = itemStack.get(DataComponentTypes.DYED_COLOR).rgb();
+                    dyedColor = itemStack.get(DataComponentTypes.DYED_COLOR).rgb();
+                }
+
+                if (dyedColor != null) {
+                    color = 0xFF000000 | dyedColor;
                 } else {
-                    color = 9723195;
+                    color = 0xFF000000 | 9723195;
                 }
             }
             backpackModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color);
